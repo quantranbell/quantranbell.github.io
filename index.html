@@ -19,7 +19,6 @@
             margin: 0 auto;
         }
 
-        /* Số vốn ban đầu đổi sang tone xanh lục bảo tươi mát */
         .game-header {
             text-align: center;
             background: linear-gradient(135deg, #1abc9c, #16a085);
@@ -45,7 +44,6 @@
             border-radius: 8px;
         }
 
-        /* Khung chứa câu hỏi */
         .game-container {
             background: #ffffff;
             padding: 30px;
@@ -68,11 +66,8 @@
             font-weight: 700;
             color: #2c3e50;
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
         }
 
-        /* Tùy chọn thiết kế tươi mới hiện đại */
         .option-label {
             display: block;
             background-color: #f8fafc;
@@ -83,7 +78,6 @@
             cursor: pointer;
             font-size: 1.05em;
             transition: all 0.25s ease;
-            position: relative;
         }
 
         .option-label input[type="radio"] {
@@ -97,7 +91,6 @@
             border-color: #1abc9c;
         }
 
-        /* Khi được chọn đổi sang màu Mint pastel dịu mắt */
         .option-label.selected {
             background-color: #e6fffa;
             border-color: #1abc9c;
@@ -105,7 +98,6 @@
             font-weight: 600;
         }
 
-        /* ĐỊNH DẠNG SỐ TIỀN HIỆN RA SAU KHI ẤN TỔNG KẾT */
         .hidden-cost {
             display: none; 
             font-weight: 700;
@@ -117,7 +109,6 @@
             font-size: 0.95em;
         }
 
-        /* Khu vực tổng kết */
         .summary-section {
             margin-top: 40px;
             text-align: center;
@@ -143,7 +134,6 @@
             box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
         }
 
-        /* Bảng kết quả tổng tiền đổi sang màu tối quyền lực sâu thẳm */
         .result-dashboard {
             display: none;
             background: linear-gradient(135deg, #1e293b, #0f172a);
@@ -152,7 +142,6 @@
             border-radius: 16px;
             margin-top: 35px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            animation: fadeIn 0.6s ease-out;
         }
 
         .result-title {
@@ -176,7 +165,6 @@
             letter-spacing: 0.5px;
         }
         
-        /* Nếu bị âm tiền sẽ đổi màu đỏ cảnh báo */
         .result-amount.negative {
             color: #ff6b6b;
             background: rgba(255, 107, 107, 0.15);
@@ -192,11 +180,6 @@
             line-height: 1.5;
             border-left: 4px solid #38bdf8;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
@@ -210,7 +193,6 @@
 
         <div class="game-container">
             
-            <!-- TÌNH HUỐNG 1 -->
             <div class="question-block">
                 <div class="question-title">1. Bạn bè rủ đi ăn, đi chơi, KTV:</div>
                 
@@ -225,7 +207,6 @@
                 </label>
             </div>
 
-            <!-- TÌNH HUỐNG 2 -->
             <div class="question-block">
                 <div class="question-title">2. Shopee sale 50% + freeship nửa đêm:</div>
                 
@@ -240,7 +221,6 @@
                 </label>
             </div>
 
-            <!-- TÌNH HUỐNG 3 -->
             <div class="question-block">
                 <div class="question-title">3. Giữa đường xe hỏng bất ngờ:</div>
                 
@@ -255,7 +235,6 @@
                 </label>
             </div>
 
-            <!-- TÌNH HUỐNG 4 -->
             <div class="question-block">
                 <div class="question-title">4. Người yêu giận vì không tặng quà sinh nhật:</div>
                 
@@ -270,7 +249,6 @@
                 </label>
             </div>
 
-            <!-- TÌNH HUỐNG 5 (Gợi ý thêm) -->
             <div class="question-block">
                 <div class="question-title">5. Sắp trễ giờ thi học kỳ quan trọng:</div>
                 
@@ -285,7 +263,6 @@
                 </label>
             </div>
 
-            <!-- TÌNH HUỐNG 6 (Gợi ý thêm) -->
             <div class="question-block">
                 <div class="question-title">6. Cơn thèm Trà sữa / Cà phê Highlands ập đến mỗi chiều:</div>
                 
@@ -320,31 +297,28 @@
 
         function selectOption(element) {
             const parent = element.parentElement;
-            // Bỏ chọn các option cũ trong cùng block
             parent.querySelectorAll('.option-label').forEach(label => {
                 label.classList.remove('selected');
             });
-            // Thêm class chọn cho ô hiện tại
             element.classList.add('selected');
             
-            // Kích hoạt nút radio bên trong ô được click
             const radio = element.querySelector('input[type="radio"]');
-            if (radio) radio.checked = true;
+            if (radio) {
+                radio.checked = true;
+            }
         }
 
         function showFinalResult() {
             let totalExpense = 0;
-            
-            // 1. Tính toán chi phí dựa trên các đáp án đã lựa chọn
             const selectedOptions = document.querySelectorAll('input[type="radio"]:checked');
+            
             selectedOptions.forEach(option => {
                 totalExpense += parseInt(option.value);
             });
 
             const remainingBudget = INITIAL_BUDGET - totalExpense;
-
-            // 2. Hiển thị số tiền còn lại (Xử lý cả tiền dương lẫn tiền âm)
             const budgetElement = document.getElementById('final-budget');
+            
             if (remainingBudget < 0) {
                 budgetElement.innerText = remainingBudget.toLocaleString('vi-VN') + ' đ (NỢ ĐẦM ĐÌA)';
                 budgetElement.classList.add('negative');
@@ -353,7 +327,6 @@
                 budgetElement.classList.remove('negative');
             }
             
-            // 3. Logic Đánh giá phong cách tài chính
             let feedback = "";
             if (remainingBudget >= 2000000) {
                 feedback = "🌟 Kết luận: Thần đồng tiết kiệm! Bạn kiểm soát ham muốn cực tốt, xứng đáng có 10 người yêu.";
@@ -366,11 +339,10 @@
             }
             document.getElementById('feedback-text').innerText = feedback;
 
-            // 4. CHỈ HIỆN SỐ TIỀN TRỪ CỦA CÁC ĐÁP ÁN ĐƯỢC CHỌN
-            // Ẩn tất cả các tag tiền trước để reset
-            document.querySelectorAll('.hidden-cost').forEach(tag => tag.style.display = 'none');
+            document.querySelectorAll('.hidden-cost').forEach(tag => {
+                tag.style.display = 'none';
+            });
             
-            // Duyệt qua các đáp án đã chọn và mở hiển thị số tiền trừ của riêng nó
             selectedOptions.forEach(option => {
                 const costTag = option.parentElement.querySelector('.hidden-cost');
                 if (costTag) {
@@ -378,11 +350,8 @@
                 }
             });
 
-            // 5. Hiển thị bảng kết quả dưới cùng
             const resultBoard = document.getElementById('result-board');
             resultBoard.style.display = 'block';
-            
-            // Cuộn mượt xuống kết quả
             resultBoard.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
